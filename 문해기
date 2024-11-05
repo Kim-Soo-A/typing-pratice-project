@@ -14,7 +14,7 @@ char generate_random_letter()
 
 void generate_random_word(char* word)
 {
-    const char* sentences[] = { "apple", "mom", "dad", "banana", "cook" }; // Example words
+    const char* sentences[5] = { "apple", "mom", "dad", "banana", "cook" }; // Example words
     int random_index = rand() % 6;   // Randomly selects one of the 5 words
     strcpy(word, sentences[random_index]);
 }
