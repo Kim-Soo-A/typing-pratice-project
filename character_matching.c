@@ -49,7 +49,7 @@ int main()
             random_letter = generate_random_letter(); // Line 11
             printf("\nRound %d: Type %c: ", i + 1, random_letter);
 
-            user_input = getch(); // 엔터 
+            user_input = _getch(); // 엔터 
             if (user_input == '1')
             {
                 printf("\nProgram terminated at user request.\n");
