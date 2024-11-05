@@ -7,16 +7,16 @@
 #include <string.h> // Header file for strcmp function
 #include <conio.h>  // Header file for getch function
 
-char generate_random_letter()
+char generate_random_letter() //알파벳 랜덤으로 뽑기 
 {
     return 'A' + (rand() % 26);  // Generates a letter from A to Z
 }
 
-void generate_random_word(char* word)
+void generate_random_word(char* word) //단어 랜덤으로 뽑기 
 {
     const char* sentences[5] = { "apple", "mom", "dad", "banana", "cook" }; // Example words
     int random_index = rand() % 6;   // Randomly selects one of the 5 words
-    strcpy(word, sentences[random_index]);
+    strcpy(word, sentences[random_index]); 
 }
 
 int main()
@@ -31,7 +31,7 @@ int main()
     char mode; // Mode selection: alphabet or word practice
 
     printf("Enter 'a' for alphabet typing practice, 's' for sentence typing practice: ");
-    scanf("%c", &mode);
+    scanf("%c", &mode); // 알파벳 할지 단어 할지 정하기 
 
     srand(time(NULL)); // Initialize random number generator for a new pattern
 
@@ -49,13 +49,13 @@ int main()
             random_letter = generate_random_letter(); // Line 11
             printf("\nRound %d: Type %c: ", i + 1, random_letter);
 
-            user_input = getch(); // Allows typing without pressing enter
+            user_input = getch(); // 엔터 
             if (user_input == '1')
             {
                 printf("\nProgram terminated at user request.\n");
                 break;
             }
-            if (toupper(user_input) == random_letter)
+            if (toupper(user_input) == random_letter) // 소문자로 입력해도 대문자로 처리 
             {
                 printf("Correct!\n");
                 score++;
