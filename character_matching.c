@@ -3,13 +3,20 @@
 #include <stdio.h>
 #include <stdlib.h> // Header file for random functions
 #include <time.h>   // Header file for time calculations
-#include <ctype.h>  // Header file for toupper function
+#include <ctype.h>  // Header file for toupper function // 필요없음 
 #include <string.h> // Header file for strcmp function
 #include <conio.h>  // Header file for getch function
 
 char generate_random_letter() //알파벳 랜덤으로 뽑기 
 {
-    return 'A' + (rand() % 26);  // Generates a letter from A to Z
+    if ( rand()%2 == 0)
+    {
+        return 'A' + (rand() % 26);  // Generates a letter from A to Z
+    }
+    else 
+    {
+        return 'a' + (rand()%26); // a~z
+    }
 }
 
 void generate_random_word(char* word) //단어 랜덤으로 뽑기 
@@ -55,7 +62,7 @@ int main()
                 printf("\nProgram terminated at user request.\n");
                 break;
             }
-            if (toupper(user_input) == random_letter) // 소문자로 입력해도 대문자로 처리 
+            if (user_input == random_letter) // 소문자로 입력해도 대문자로 처리 
             {
                 printf("Correct!\n");
                 score++;
