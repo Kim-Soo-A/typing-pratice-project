@@ -5,7 +5,7 @@ void menu(int);
 void shortcode();
 void wholecode();
 
-void CursorView(char show) { //Ä¿¼­°¡ ±ôºýÀÌÁö ¾Êµµ·Ï ÇÔ
+void CursorView(char show) { //ì»¤ì„œê°€ ê¹œë¹¡ì´ì§€ ì•Šë„ë¡ í•¨
     HANDLE hConsole;
     CONSOLE_CURSOR_INFO ConsoleCursor;
 
@@ -18,28 +18,28 @@ void CursorView(char show) { //Ä¿¼­°¡ ±ôºýÀÌÁö ¾Êµµ·Ï ÇÔ
 }
 
 void menu(int selected) {
-    system("cls");  // ÄÜ¼Ö È­¸é Áö¿ì±â
-    CursorView(0);  // Ä¿¼­ ¼û±â±â
+    system("cls");  // ì½˜ì†” í™”ë©´ ì§€ìš°ê¸°
+    CursorView(0);  // ì»¤ì„œ ìˆ¨ê¸°ê¸°
 
-    // ¸Þ´º Ãâ·Â
+    // ë©”ë‰´ ì¶œë ¥
     printf("\n\n\n\n");
     printf("            ============================\n");
-    printf("            |         ¸Þ´º ¼±ÅÃ        |\n");
+    printf("            |         Select menu        |\n");
     printf("            ============================\n");
     if (selected == 1) {
-        printf("            |¢º     Short code          |\n");
+        printf("            |â–¶     Short code          |\n");
     }
     else {
         printf("            |      Short code          |\n");
     }
     if (selected == 2) {
-        printf("            |¢º     Whole code          |\n");
+        printf("            |â–¶     Whole code          |\n");
     }
     else {
         printf("            |      Whole code          |\n");
     }
     if (selected == 3) {
-        printf("            |¢º     Exit                |\n");
+        printf("            |â–¶     Exit                |\n");
     }
     else {
         printf("            |      Exit                |\n");
@@ -48,37 +48,37 @@ void menu(int selected) {
 }
 
 void shortcode() {
-    printf("\n'ÂªÀº ÄÚµå ¿¬½À'À» ½ÃÀÛÇÕ´Ï´Ù.\n");
+    printf("\n'Start short code practice.\n");
     system("pause");
 }
 
 void wholecode() {
-    printf("\n'ÀüÃ¼ ÄÚµå ¿¬½À'À» ½ÃÀÛÇÕ´Ï´Ù.\n");
+    printf("\n'Start whole code practice\n");
     system("pause");
 }
 
 int main() {
-    int selected = 1; //default°ªÀ» short code·Î ¼³Á¤
+    int selected = 1; //defaultê°’ì„ short codeë¡œ ì„¤ì •
     int key;
 
-    // ÄÜ¼Ö Ã¢ Å©±â ¼³Á¤
+    // ì½˜ì†” ì°½ í¬ê¸° ì„¤ì •
     system("mode con cols=80 lines=30");
 
     while (1) {
-        menu(selected);  // ¸Þ´º Ãâ·Â ÇÔ¼ö È£Ãâ
+        menu(selected);  // ë©”ë‰´ ì¶œë ¥ í•¨ìˆ˜ í˜¸ì¶œ
 
-        key = _getch();  // Å° ÀÔ·Â ´ë±â
+        key = _getch();  // í‚¤ ìž…ë ¥ ëŒ€ê¸°
 
-        if (key == 224) {  // ¹æÇâÅ°ÀÎ °æ¿ì
-            key = _getch();  // ½ÇÁ¦ ¹æÇâÅ° ÄÚµå ÀÐ±â
-            if (key == 72) {  // À§ÂÊ È­»ìÇ¥
+        if (key == 224) {  // ë°©í–¥í‚¤ì¸ ê²½ìš°
+            key = _getch();  // ì‹¤ì œ ë°©í–¥í‚¤ ì½”ë“œ ì½ê¸°
+            if (key == 72) {  // ìœ„ìª½ í™”ì‚´í‘œ
                 if (selected > 1) selected--;
             }
-            else if (key == 80) {  // ¾Æ·¡ÂÊ È­»ìÇ¥
+            else if (key == 80) {  // ì•„ëž˜ìª½ í™”ì‚´í‘œ
                 if (selected < 3) selected++;
             }
         }
-        else if (key == 13) {  // Enter Å°ÀÎ °æ¿ì
+        else if (key == 13) {  // Enter í‚¤ì¸ ê²½ìš°
             switch (selected) {
             case 1:
                 shortcode();
@@ -87,7 +87,7 @@ int main() {
                 wholecode();
                 break;
             case 3:
-                printf("\nÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.\n");
+                printf("\nQuit the program\n");
                 return 0;
             }
         }
