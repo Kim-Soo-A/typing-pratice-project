@@ -52,14 +52,15 @@ char generate_random_letter() {
 }
 
 void generate_random_word(char* word, size_t len) {
-    const char* sentences[1] = { "apple"};
+    const char* sentences[1] = { "apple" };
     int random_index = rand() % 1;
     strcpy_s(word, len, sentences[random_index]); // Use safe string copy
 }
 
 void shortcode() {
+    system("cls");
     char random_letter, user_input;
-    int score = 0, count = 0;
+    int score = 0, count = 0, total_chars = 0, incorrect_chars = 0;
     time_t start_time, end_time;
     double elapsed_time, wpm;
     printf("Starting alphabet typing practice! There are a total of %d rounds.\n", 10);
@@ -82,7 +83,9 @@ void shortcode() {
         }
         else {
             printf(" Incorrect. The correct answer was %c.\n", random_letter);
+            incorrect_chars++;
         }
+        total_chars++;
         count++;
     }
 
@@ -91,13 +94,15 @@ void shortcode() {
     wpm = (score / elapsed_time) * 60.0;
     printf("\nYour score is %d/%d.\n", score, count);
     printf("Typing Speed (WPM): %.2f\n", wpm);
+    printf("Total Characters: %d, Incorrect Characters: %d\n", total_chars, incorrect_chars);
+    printf("Accuracy: %.2f%%\n", (double)score / total_chars * 100.0);
     system("pause");
 }
 
 void wholecode() {
+    system("cls");
     char random_sentence[100], input_sentence[100];
-    int score = 0;
-    int count = 0;
+    int score = 0, count = 0, total_chars = 0, incorrect_chars = 0;
     time_t start_time, end_time;
     double elapsed_time, wpm;
 
@@ -117,11 +122,13 @@ void wholecode() {
         }
         if (strcmp(input_sentence, random_sentence) == 0) {
             printf(" Correct!\n");
-            score++;
+            score += strlen(random_sentence);
         }
         else {
             printf(" Incorrect. The correct answer was \"%s\".\n", random_sentence);
+            incorrect_chars += strlen(random_sentence);
         }
+        total_chars += strlen(random_sentence);
         count++;
     }
 
@@ -130,6 +137,7 @@ void wholecode() {
     wpm = (score / elapsed_time) * 60.0;
     printf("\nYour score is %d/%d.\n", score, count);
     printf("Typing Speed (WPM): %.2f\n", wpm);
+    printf("Accuracy: %.2f%%\n", (double)score / total_chars * 100.0);
     system("pause");
 }
 
