@@ -6,7 +6,8 @@
 #include <ctype.h>  // Header file for toupper function // 필요없음 
 #include <string.h> // Header file for strcmp function
 #include <conio.h>  // Header file for getch function
-
+// 색깔 넣기? 
+//가끔 s모드에서 오류 생김 
 char generate_random_letter() //알파벳 랜덤으로 뽑기 
 {
     if ( rand()%2 == 0)
@@ -119,9 +120,9 @@ int main()
 
     elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
 
-    // Calculate typing speed in WPM
-    wpm = (score / elapsed_time) * 60.0;
 
+    // Calculate typing speed in WPM
+    wpm = (score / 5.0) * (600.0 / elapsed_time);
     // Display score and typing speed
     printf("\nGame over! Your score is %d/%d.\n", score, count);
     printf("Typing Speed (WPM): %.2f\n", wpm);
