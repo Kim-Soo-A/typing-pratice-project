@@ -119,7 +119,11 @@ void shortcode() {
         while (1) {
             char ch = _getch(); // 글자 입력 받기
 
-            if (ch == '\r') { // Enter key to finish input
+            if (ch == 27) { // ESC 키 감지
+                fclose(file);
+                return; // 함수를 종료하고 메뉴로 돌아감
+            }
+            else if (ch == '\r') { // Enter key to finish input
                 break;
             }
             else if (ch == '\b' && inputIndex > 0) { // Backspace 처리
@@ -186,7 +190,11 @@ void wholecode() {
         while (1) {
             char ch = _getch();
 
-            if (ch == '\r') { // Enter key to finish input
+            if (ch == 27) { // ESC 키 감지
+                fclose(file);
+                return; // 함수를 종료하고 메뉴로 돌아감
+            }
+            else if (ch == '\r') { // Enter key to finish input
                 break;
             }
             else if (ch == '\b' && inputIndex > 0) { // Backspace 처리
