@@ -105,7 +105,9 @@ void shortcode() {
         printf("Error: Could not open file.\n");
         return;
     }
-
+    printf("This is short code practice. Press Enter to move to the next line\n");
+    printf("Press ESC to move to menu\n\n");
+    
     time(&start_time); // 전체 입력 시작 시간
     while (fgets(code, sizeof(code), file)) {
         code[strcspn(code, "\n")] = 0; // 개행 문자 제거
@@ -176,7 +178,9 @@ void wholecode() {
         printf("Error: Could not open file.\n");
         return;
     }
-
+    printf("This is whole code practice. Press Enter to move to the next line\n");
+    printf("Press ESC to move to menu\n\n");
+    
     time(&start_time); // 전체 입력 시작 시간
     while (fgets(code, sizeof(code), file)) {
         code[strcspn(code, "\n")] = 0; // 개행 문자 제거
