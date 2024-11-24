@@ -141,7 +141,7 @@ void shortcode() {
         int randomIndex;
         do {
             randomIndex = rand() % lineCount;
-        } while (usedIndices[randomIndex]==0); // 이미 사용된 코드를 다시 선택하지 않음
+        } while (usedIndices[randomIndex]); // 이미 사용된 코드를 다시 선택하지 않음
 
         usedIndices[randomIndex] = 1; // 코드 사용 표시
 
