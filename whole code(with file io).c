@@ -141,9 +141,9 @@ void shortcode() {
         int randomIndex;
         do {
             randomIndex = rand() % lineCount;
-        } while (usedIndices[randomIndex]==1); //이미 사용되지 않은 코드가 나올 때까지 계속 랜덤 추출함
+        } while (usedIndices[randomIndex] == 1); // 이미 사용되지 않은 코드가 나올 때까지 계속 랜덤 추출함
 
-        usedIndices[randomIndex] = 1; //코드 사용 표시
+        usedIndices[randomIndex] = 1; // 코드 사용 표시
 
         printf("Type this code: %s\n", code[randomIndex]);
         char input[100] = { 0 };
@@ -197,27 +197,30 @@ void shortcode() {
     system("pause");
 }
 
-void wholecode() {
-    system("cls");
-    CursorView(0);
-    char code[500];
-    FILE* file = fopen("wholecodes.txt", "r");
-    int totalCorrectCount = 0, totalInputCount = 0;
-    time_t start_time, end_time;
 
+
+void practiceCode(const char* filename) {
+    system("cls");
+    char code[500];
+    FILE* file = fopen(filename, "r");
     if (!file) {
-        printf("Error: Could not open file.\n");
+        printf("Error: Could not open file '%s'.\n", filename);
         return;
     }
-    printf("This is whole code practice. Press Enter to move to the next line\n");
+
+    printf("This is code practice from %s. Press Enter to move to the next line\n", filename);
     printf("Press ESC to move to menu\n\n");
 
-    time(&start_time);
+    char input[500] = { 0 };
+    int totalCorrectCount = 0, totalInputCount = 0;
+    time_t start_time, end_time;
+    time(&start_time); // Start time for the practice session
+
     while (fgets(code, sizeof(code), file)) {
-        code[strcspn(code, "\n")] = 0; // 개행 문자 제거
+        code[strcspn(code, "\n")] = 0; // Remove newline character
         printf("Type this code: %s\n", code);
         int len = strlen(code);
-        char input[500] = { 0 };
+        memset(input, 0, sizeof(input));
         int inputIndex = 0;
         int correctCount = 0;
 
@@ -225,45 +228,91 @@ void wholecode() {
         while (1) {
             char ch = _getch();
 
-            if (ch == 27) { // ESC 키 감지
+            if (ch == 27) { // ESC key
                 fclose(file);
                 return;
             }
-            else if (ch == '\r') { // Enter 키
+            else if (ch == '\r') { // Enter key
+                printf("\n");
+                totalCorrectCount += correctCount;
+                totalInputCount += inputIndex; // Correct the count to be inputIndex
                 break;
             }
             else if (ch == '\b' && inputIndex > 0) { // Backspace
-                printf("\b \b");
                 inputIndex--;
+                printf("\b \b");
+                setTextColor(7); // Reset color for backspace
             }
             else if (isprint(ch) && inputIndex < len) {
                 input[inputIndex] = ch;
                 if (ch == code[inputIndex]) {
-                    setTextColor(2); // 정답: 녹색
+                    setTextColor(2); // Green for correct
                     correctCount++;
                 }
                 else {
-                    setTextColor(4); // 오답: 빨간색
+                    setTextColor(4); // Red for incorrect
                 }
                 printf("%c", ch);
-                setTextColor(7);
+                setTextColor(7); // Reset to default
                 inputIndex++;
             }
         }
-        totalCorrectCount += correctCount;
-        totalInputCount += len;
-        printf("\n");
     }
     fclose(file);
 
-    time(&end_time); // 연습 종료 시간
+    time(&end_time); // End time for the practice session
     double elapsed_time = difftime(end_time, start_time);
     double accuracy = ((double)totalCorrectCount / totalInputCount) * 100;
     double wpm = ((double)totalInputCount / elapsed_time) * 60;
 
-    printf("\nPractice Completed!\n");
+    printf("Practice Completed!\n");
     printf("Time taken: %.2f seconds\n", elapsed_time);
     printf("Accuracy: %.2f%%\n", accuracy);
     printf("Typing Speed: %.2f WPM\n", wpm);
     system("pause");
+}
+
+void wholecode() {
+    int selected = 1; // Default selection
+    int key;
+
+    while (1) {
+        system("cls");  // Clear the screen
+        printf("\n\n\n\n");
+        printf("            ============================\n");
+        printf("            |      Select category     |\n");
+        printf("            ============================\n");
+        printf("            |%s     Hello World         |\n", (selected == 1) ? "\u25b6" : " ");
+        printf("            |%s     Scanf               |\n", (selected == 2) ? "\u25b6" : " ");
+        printf("            |%s     File I/O            |\n", (selected == 3) ? "\u25b6" : " ");
+        printf("            ============================\n");
+
+        key = _getch();
+
+        if (key == 224) { // Arrow key detection
+            key = _getch();
+            if (key == 72 && selected > 1) { // Up arrow
+                selected--;
+            }
+            else if (key == 80 && selected < 3) { // Down arrow
+                selected++;
+            }
+        }
+        else if (key == 13) { // Enter key detection
+            switch (selected) {
+            case 1:
+                practiceCode("helloworld.txt");
+                return;
+            case 2:
+                practiceCode("scanf.txt");
+                return;
+            case 3:
+                practiceCode("fileio.txt");
+                return;
+            }
+        }
+        else if (key == 27) { // ESC to exit
+            return;
+        }
+    }
 }
