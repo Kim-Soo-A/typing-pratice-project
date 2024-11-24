@@ -1,3 +1,4 @@
+-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,8 +26,8 @@ void setTextColor(int color) {
 
 // 메뉴 출력 함수
 void menu(int selected) {
-    system("cls");  // 콘솔 화면 지우기
-    CursorView(0);  // 커서 숨기기
+    system("cls");
+    CursorView(0);
 
     printf("\n\n\n\n");
     printf("            ============================\n");
@@ -57,6 +58,7 @@ void shortcode();
 void wholecode();
 
 int main() {
+    srand((unsigned int)time(NULL)); // 난수 생성 초기화
     int selected = 1;
     int key;
 
@@ -65,16 +67,16 @@ int main() {
 
         key = _getch();
 
-        if (key == 224) {  // 화살표 키 감지
+        if (key == 224) { // 화살표 키 감지
             key = _getch();
-            if (key == 72 && selected > 1) {  // 위쪽 화살표
+            if (key == 72 && selected > 1) { // 위쪽 화살표
                 selected--;
             }
-            else if (key == 80 && selected < 3) {  // 아래쪽 화살표
+            else if (key == 80 && selected < 3) { // 아래쪽 화살표
                 selected++;
             }
         }
-        else if (key == 13) {  // 엔터 키 감지
+        else if (key == 13) { // 엔터 키 감지
             switch (selected) {
             case 1:
                 shortcode();
@@ -95,75 +97,101 @@ int main() {
 void shortcode() {
     system("cls");
     CursorView(0);
-    char code[100];
-    FILE* file = fopen("shortcodes.txt", "r");
+
+    char code[100][100]; // 여러 줄의 코드 저장
+    int lineCount = 0;   // 파일에서 읽은 줄 수
     int totalCorrectCount = 0, totalInputCount = 0;
-    int lines = 0;
+    int rounds;          // 사용자 입력: 라운드 수
     time_t start_time, end_time;
 
+    FILE* file = fopen("shortcodes.txt", "r");
     if (!file) {
         printf("Error: Could not open file.\n");
         return;
     }
+
+    // 파일에서 코드 읽기
+    while (fgets(code[lineCount], sizeof(code[lineCount]), file)) {
+        code[lineCount][strcspn(code[lineCount], "\n")] = 0; // 개행 문자 제거
+        lineCount++;
+    }
+    fclose(file);
+
+    if (lineCount == 0) {
+        printf("Error: shortcodes.txt 파일이 비어 있습니다.\n");
+        return;
+    }
+
+    // 라운드 수 입력받기
+    printf("Enter the number of rounds to practice: ");
+    scanf_s("%d", &rounds);
+    getchar(); // 버퍼 클리어 (엔터키 제거)
+
     printf("This is short code practice. Press Enter to move to the next line\n");
     printf("Press ESC to move to menu\n\n");
-    
-    time(&start_time); // 전체 입력 시작 시간
-    while (fgets(code, sizeof(code), file)) {
-        code[strcspn(code, "\n")] = 0; // 개행 문자 제거
-        printf("Type this code: %s\n", code);
-        int len = strlen(code);
-        char input[100] = { 0 }; // 입력 배열 초기화
-        int inputIndex = 0; // 입력 배열 인덱스
+
+    time(&start_time); // 연습 시작 시간
+
+    // 라운드 반복
+    for (int round = 1; round <= rounds; round++) {
+        system("cls");
+        printf("Round %d / %d\n\n", round, rounds);
+
+        // 랜덤 코드 선택
+        int randomIndex = rand() % lineCount;
+
+        // 랜덤 코드 출력
+        printf("Type this code: %s\n", code[randomIndex]);
+        char input[100] = { 0 };
+        int inputIndex = 0;
         int correctCount = 0;
 
         printf("Your input: ");
         while (1) {
-            char ch = _getch(); // 글자 입력 받기
+            char ch = _getch();
 
             if (ch == 27) { // ESC 키 감지
-                fclose(file);
-                return; // 함수를 종료하고 메뉴로 돌아감
+                return;     // 메뉴로 돌아감
             }
-            else if (ch == '\r') { // Enter key to finish input
+            else if (ch == '\r') { // Enter 키
                 break;
             }
-            else if (ch == '\b' && inputIndex > 0) { // Backspace 처리
-                printf("\b \b"); // 화면에서 글자 지우기
-                inputIndex--; // 인덱스 감소
+            else if (ch == '\b' && inputIndex > 0) { // Backspace
+                printf("\b \b");
+                inputIndex--;
             }
-            else if (isprint(ch) && inputIndex < len) { // 인쇄 가능한 문자만 처리
+            else if (isprint(ch) && inputIndex < strlen(code[randomIndex])) {
                 input[inputIndex] = ch;
-                if (ch == code[inputIndex]) {
-                    setTextColor(2); // 정답일 경우 녹색
+                if (ch == code[randomIndex][inputIndex]) {
+                    setTextColor(2); // 정답: 녹색
                     correctCount++;
                 }
                 else {
-                    setTextColor(4); // 오답일 경우 빨간색
+                    setTextColor(4); // 오답: 빨간색
                 }
                 printf("%c", ch);
-                setTextColor(7); // 기본 색상으로 복원
+                setTextColor(7); // 기본 색상 복원
                 inputIndex++;
             }
         }
-        totalCorrectCount += correctCount;
-        totalInputCount += len;
-        lines++;
-        printf("\n");
-    }
-    fclose(file);
 
-    time(&end_time); // 전체 입력 종료 시간
+        // 입력 완료 후 라운드 결과 계산
+        totalCorrectCount += correctCount;
+        totalInputCount += strlen(code[randomIndex]); // 정답 기준 입력 길이
+        printf("\nCorrect: %d / %d\n", correctCount, strlen(code[randomIndex]));
+    }
+
+    time(&end_time); // 연습 종료 시간
     double elapsed_time = difftime(end_time, start_time);
     double accuracy = ((double)totalCorrectCount / totalInputCount) * 100;
     double wpm = ((double)totalInputCount / elapsed_time) * 60;
 
-    printf("Time taken: %.2f seconds.\n", elapsed_time);
+    printf("\nPractice Completed!\n");
+    printf("Time taken: %.2f seconds\n", elapsed_time);
     printf("Accuracy: %.2f%%\n", accuracy);
     printf("Typing Speed: %.2f WPM\n", wpm);
     system("pause");
 }
-
 
 void wholecode() {
     system("cls");
@@ -171,7 +199,6 @@ void wholecode() {
     char code[500];
     FILE* file = fopen("wholecodes.txt", "r");
     int totalCorrectCount = 0, totalInputCount = 0;
-    int lines = 0;
     time_t start_time, end_time;
 
     if (!file) {
@@ -180,8 +207,8 @@ void wholecode() {
     }
     printf("This is whole code practice. Press Enter to move to the next line\n");
     printf("Press ESC to move to menu\n\n");
-    
-    time(&start_time); // 전체 입력 시작 시간
+
+    time(&start_time);
     while (fgets(code, sizeof(code), file)) {
         code[strcspn(code, "\n")] = 0; // 개행 문자 제거
         printf("Type this code: %s\n", code);
@@ -196,23 +223,23 @@ void wholecode() {
 
             if (ch == 27) { // ESC 키 감지
                 fclose(file);
-                return; // 함수를 종료하고 메뉴로 돌아감
+                return;
             }
-            else if (ch == '\r') { // Enter key to finish input
+            else if (ch == '\r') { // Enter 키
                 break;
             }
-            else if (ch == '\b' && inputIndex > 0) { // Backspace 처리
+            else if (ch == '\b' && inputIndex > 0) { // Backspace
                 printf("\b \b");
                 inputIndex--;
             }
             else if (isprint(ch) && inputIndex < len) {
                 input[inputIndex] = ch;
                 if (ch == code[inputIndex]) {
-                    setTextColor(2);
+                    setTextColor(2); // 정답: 녹색
                     correctCount++;
                 }
                 else {
-                    setTextColor(4);
+                    setTextColor(4); // 오답: 빨간색
                 }
                 printf("%c", ch);
                 setTextColor(7);
@@ -221,17 +248,17 @@ void wholecode() {
         }
         totalCorrectCount += correctCount;
         totalInputCount += len;
-        lines++;
         printf("\n");
     }
     fclose(file);
 
-    time(&end_time); // 전체 입력 종료 시간
+    time(&end_time); // 연습 종료 시간
     double elapsed_time = difftime(end_time, start_time);
     double accuracy = ((double)totalCorrectCount / totalInputCount) * 100;
     double wpm = ((double)totalInputCount / elapsed_time) * 60;
 
-    printf("Time taken: %.2f seconds.\n", elapsed_time);
+    printf("\nPractice Completed!\n");
+    printf("Time taken: %.2f seconds\n", elapsed_time);
     printf("Accuracy: %.2f%%\n", accuracy);
     printf("Typing Speed: %.2f WPM\n", wpm);
     system("pause");
