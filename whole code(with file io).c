@@ -98,11 +98,12 @@ void shortcode() {
     system("cls");
     CursorView(0);
 
-    char code[100][100]; // 여러 줄의 코드 저장
+    char code[1000][1000]; // 여러 줄의 코드 저장
     int lineCount = 0;   // 파일에서 읽은 줄 수
     int totalCorrectCount = 0, totalInputCount = 0;
     int rounds;          // 사용자 입력: 라운드 수
     time_t start_time, end_time;
+    int usedIndices[1000] = { 0 }; // 사용한 인덱스 추적
 
     FILE* file = fopen("shortcodes.txt", "r");
     if (!file) {
@@ -110,37 +111,40 @@ void shortcode() {
         return;
     }
 
-    // 파일에서 코드 읽기
     while (fgets(code[lineCount], sizeof(code[lineCount]), file)) {
-        code[lineCount][strcspn(code[lineCount], "\n")] = 0; // 개행 문자 제거
+        code[lineCount][strcspn(code[lineCount], "\n")] = 0;
         lineCount++;
     }
     fclose(file);
 
     if (lineCount == 0) {
-        printf("Error: shortcodes.txt 파일이 비어 있습니다.\n");
+        printf("Error: shortcodes.txt file is empty.\n");
         return;
     }
-
-    // 라운드 수 입력받기
+    printf("This is short code practice. Press Enter key to move to the next code\n");
+    printf("Press ESC key to return to the menu\n\n");
     printf("Enter the number of rounds to practice: ");
     scanf_s("%d", &rounds);
     getchar(); // 버퍼 클리어 (엔터키 제거)
 
-    printf("This is short code practice. Press Enter to move to the next line\n");
-    printf("Press ESC to move to menu\n\n");
+    if (rounds > lineCount) {
+        printf("Error: Number of rounds must be less than or equal to %d.\n\n", lineCount);
+        printf("Press any key to return to the menu...\n");
+        _getch(); // 사용자 입력 대기
+        return;
+    }
 
     time(&start_time); // 연습 시작 시간
 
-    // 라운드 반복
-    for (int round = 1; round <= rounds; round++) {
-        system("cls");
-        printf("Round %d / %d\n\n", round, rounds);
-
+    for (int round = 0; round < rounds; round++) {
         // 랜덤 코드 선택
-        int randomIndex = rand() % lineCount;
+        int randomIndex;
+        do {
+            randomIndex = rand() % lineCount;
+        } while (usedIndices[randomIndex]==0); // 이미 사용된 코드를 다시 선택하지 않음
 
-        // 랜덤 코드 출력
+        usedIndices[randomIndex] = 1; // 코드 사용 표시
+
         printf("Type this code: %s\n", code[randomIndex]);
         char input[100] = { 0 };
         int inputIndex = 0;
@@ -175,10 +179,10 @@ void shortcode() {
             }
         }
 
-        // 입력 완료 후 라운드 결과 계산
         totalCorrectCount += correctCount;
-        totalInputCount += strlen(code[randomIndex]); // 정답 기준 입력 길이
-        printf("\nCorrect: %d / %d\n", correctCount, strlen(code[randomIndex]));
+        totalInputCount += strlen(code[randomIndex]);
+        //printf("\nCorrect: %d / %d\n", correctCount, strlen(code[randomIndex]));
+        printf("\n");
     }
 
     time(&end_time); // 연습 종료 시간
@@ -186,7 +190,7 @@ void shortcode() {
     double accuracy = ((double)totalCorrectCount / totalInputCount) * 100;
     double wpm = ((double)totalInputCount / elapsed_time) * 60;
 
-    printf("\nPractice Completed!\n");
+    printf("Practice Completed!\n");
     printf("Time taken: %.2f seconds\n", elapsed_time);
     printf("Accuracy: %.2f%%\n", accuracy);
     printf("Typing Speed: %.2f WPM\n", wpm);
