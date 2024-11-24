@@ -220,7 +220,6 @@ void practiceCode(const char* filename) {
         code[strcspn(code, "\n")] = 0; // Remove newline character
         printf("Type this code: %s\n", code);
         int len = strlen(code);
-        memset(input, 0, sizeof(input));
         int inputIndex = 0;
         int correctCount = 0;
 
