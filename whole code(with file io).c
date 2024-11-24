@@ -141,9 +141,9 @@ void shortcode() {
         int randomIndex;
         do {
             randomIndex = rand() % lineCount;
-        } while (usedIndices[randomIndex]); // 이미 사용된 코드를 다시 선택하지 않음
+        } while (usedIndices[randomIndex]==1); //이미 사용되지 않은 코드가 나올 때까지 계속 랜덤 추출함
 
-        usedIndices[randomIndex] = 1; // 코드 사용 표시
+        usedIndices[randomIndex] = 1; //코드 사용 표시
 
         printf("Type this code: %s\n", code[randomIndex]);
         char input[100] = { 0 };
