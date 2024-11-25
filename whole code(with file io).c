@@ -1,13 +1,13 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> //library for printing random codes
 #include <string.h>
-#include <conio.h>
-#include <windows.h>
-#include <time.h>
+#include <conio.h> //library for reading input values ​​from the keyboard
+#include <windows.h> //library for change colors
+#include <time.h> //library for measuring time
 
 // 커서 숨기기 함수
-void CursorView(char show) {
+void CursorView(char show) { //Prevent cursor from blinking
     HANDLE hConsole;
     CONSOLE_CURSOR_INFO ConsoleCursor;
 
@@ -26,7 +26,7 @@ void setTextColor(int color) {
 
 // 메뉴 출력 함수
 void menu(int selected) {
-    system("cls");
+    system("cls"); //Cleaning console
     CursorView(0);
 
     printf("\n\n\n\n");
@@ -281,11 +281,25 @@ void wholecode() {
         printf("            ============================\n");
         printf("            |      Select category     |\n");
         printf("            ============================\n");
-        printf("            |%s     Hello World         |\n", (selected == 1) ? "\u25b6" : " ");
-        printf("            |%s     Scanf               |\n", (selected == 2) ? "\u25b6" : " ");
-        printf("            |%s     File I/O            |\n", (selected == 3) ? "\u25b6" : " ");
+        if (selected == 1) {
+            printf("            |\u25b6     hello world         |\n");
+        }
+        else {
+            printf("            |      hello world         |\n");
+        }
+        if (selected == 2) {
+            printf("            |\u25b6     scanf               |\n");
+        }
+        else {
+            printf("            |      scanf               |\n");
+        }
+        if (selected == 3) {
+            printf("            |\u25b6     file i/o            |\n");
+        }
+        else {
+            printf("            |      file i/o            |\n");
+        }
         printf("            ============================\n");
-
         key = _getch();
 
         if (key == 224) { // Arrow key detection
