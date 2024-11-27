@@ -190,7 +190,7 @@ void shortcode() {
 
     time(&end_time); //End measuring time
     double elapsed_time = difftime(end_time, start_time);
-    double accuracy = ((double)totalCorrectCount / totalInputCount) * 100;
+    double accuracy = ((double)totalCorrectCount / (double)totalInputCount) * 100;
     double wpm = ((double)totalInputCount / elapsed_time) * 60;
 
     printf("Practice Completed!\n");
@@ -264,7 +264,7 @@ void practiceCode(const char* filename) {
 
     time(&end_time); //End measuring time
     double elapsed_time = difftime(end_time, start_time);
-    double accuracy = ((double)totalCorrectCount / totalInputCount) * 100;
+    double accuracy = ((double)totalCorrectCount / (double)totalInputCount) * 100;
     double wpm = ((double)totalInputCount / elapsed_time) * 60;
 
     printf("Practice Completed!\n");
