@@ -95,8 +95,8 @@ int main() {
 }
 
 void shortcode() {
-    system("cls");
-    CursorView(0);
+    system("cls"); //콘솔 화면 지움
+    CursorView(0); // 콘솔 커서 숨김
 
     char code[1000][1000]; //Save multiple lines of code
     int lineCount = 0;   //Number of lines read from file
@@ -164,13 +164,16 @@ void shortcode() {
                 printf("\b \b");
                 inputIndex--;
             }
-            else if (isprint(ch) && inputIndex < strlen(code[randomIndex])) {
-                input[inputIndex] = ch;
-                if (ch == code[randomIndex][inputIndex]) {
+            else if (isprint(ch) && inputIndex < strlen(code[randomIndex])) //출력가능한 문자이고 ,입력위치가 정답길이보다 적음
+            {
+                input[inputIndex] = ch; //입력값 저장 
+                if (ch == code[randomIndex][inputIndex]) //맞은경우
+                {
                     setTextColor(2); //Answer: green
                     correctCount++;
                 }
-                else {
+                else //틀린경우 
+                {
                     setTextColor(4); //Wrong: red
                 }
                 printf("%c", ch);
@@ -194,13 +197,13 @@ void shortcode() {
     printf("Time taken: %.2f seconds\n", elapsed_time);
     printf("Accuracy: %.2f%%\n", accuracy);
     printf("Typing Speed: %.2f WPM\n", wpm);
-    system("pause");
+    system("pause"); //결과화면 유지 
 }
 
 
 
 void practiceCode(const char* filename) {
-    system("cls");
+    system("cls");//콘솔 화면 지움
     char code[500];
     FILE* file = fopen(filename, "r");
     if (!file) {
@@ -225,11 +228,11 @@ void practiceCode(const char* filename) {
 
         printf("Your input: ");
         while (1) {
-            char ch = _getch();
+            char ch = _getch(); //키입력 감지 
 
             if (ch == 27) { //ESC key
                 fclose(file);
-                return;
+                return; //메뉴로 돌아가기 
             }
             else if (ch == '\r') { //Enter key
                 printf("\n");
@@ -239,7 +242,7 @@ void practiceCode(const char* filename) {
             }
             else if (ch == '\b' && inputIndex > 0) { //Backspace
                 inputIndex--;
-                printf("\b \b");
+                printf("\b \b"); //화면에서 문자제거 
                 setTextColor(7); //Reset color for backspace
             }
             else if (isprint(ch) && inputIndex < len) {
