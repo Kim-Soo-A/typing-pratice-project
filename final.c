@@ -177,7 +177,7 @@ void shortcode() {
                     setTextColor(4); //Wrong: red
                 }
                 printf("%c", ch);
-                setTextColor(7); //Restore default colors(white) to provide the next code
+                setTextColor(7); //Restore default colors(gray) to provide the next code
                 inputIndex++;
             }
         }
