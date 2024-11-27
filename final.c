@@ -146,7 +146,7 @@ void shortcode() {
         usedIndices[randomIndex] = 1; //To display code that has already been used
 
         printf("Type this code: %s\n", code[randomIndex]);
-        char input[100] = { 0 };
+        //char input[100] = { 0 };
         int inputIndex = 0;
         int correctCount = 0;
 
@@ -166,7 +166,7 @@ void shortcode() {
             }
             else if (isprint(ch) && inputIndex < strlen(code[randomIndex])) //Printable character, input position less than correct length
             {
-                input[inputIndex] = ch; //Save Inputs
+                //input[inputIndex] = ch; //Save Inputs
                 if (ch == code[randomIndex][inputIndex]) //When correct
                 {
                     setTextColor(2); //Answer: green
