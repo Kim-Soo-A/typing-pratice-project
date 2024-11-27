@@ -197,7 +197,7 @@ void shortcode() {
     printf("Time taken: %.2f seconds\n", elapsed_time);
     printf("Accuracy: %.2f%%\n", accuracy);
     printf("Typing Speed: %.2f WPM\n", wpm);
-    system("pause");
+    system("pause"); //Keep Results Screen
 }
 
 
