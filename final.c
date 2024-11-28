@@ -292,23 +292,23 @@ void wholecode() {
         printf("            ============================\n");
         printf("            |      Select category     |\n");
         printf("            ============================\n");
-        if (selected == 1) {
-            printf("            |\u25b6     hello world         |\n");
-        }
-        else {
-            printf("            |      hello world         |\n");
-        }
-        if (selected == 2) {
+       if (selected == 1) {
             printf("            |\u25b6     scanf               |\n");
         }
         else {
             printf("            |      scanf               |\n");
         }
-        if (selected == 3) {
-            printf("            |\u25b6     file i/o            |\n");
+        if (selected == 2) {
+            printf("            |\u25b6     if                  |\n");
         }
         else {
-            printf("            |      file i/o            |\n");
+            printf("            |      if                  |\n");
+        }
+        if (selected == 3) {
+            printf("            |\u25b6     pointer             |\n");
+        }
+        else {
+            printf("            |      pointer             |\n");
         }
         printf("            ============================\n");
         key = _getch();
@@ -325,13 +325,13 @@ void wholecode() {
         else if (key == 13) { // Enter key detection
             switch (selected) {
             case 1:
-                practiceCode("helloworld.txt");
-                return;
-            case 2:
                 practiceCode("scanf.txt");
                 return;
+            case 2:
+                practiceCode("if.txt");
+                return;
             case 3:
-                practiceCode("fileio.txt");
+                practiceCode("pointer.txt");
                 return;
             }
         }
