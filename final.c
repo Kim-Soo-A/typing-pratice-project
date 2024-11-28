@@ -240,10 +240,13 @@ void practiceCode(const char* filename) {
                 totalInputCount += inputIndex; //Correct the count to be inputIndex
                 break;
             }
-            else if (ch == '\b' && inputIndex > 0) { //Backspace
+            else if (ch == '\b' && inputIndex > 0) { // Backspace
                 inputIndex--;
-                printf("\b \b"); //backspace
-                setTextColor(7); //Reset color for backspace
+                printf("\b \b");
+                if (code[randomIndex][inputIndex] == input[inputIndex]) {
+                    correctCount--; // Decrease correct count if the character was correct
+                }
+                totalInputCount--; // Decrease total input count
             }
             else if (isprint(ch) && inputIndex < len) {
                 input[inputIndex] = ch;
