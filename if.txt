@@ -8,6 +8,6 @@ int main() {
  else {
   grade='B';
  }
- printf("yout grade is %c", grade);
+ printf("your grade is %c", grade);
  return 0;
 }
