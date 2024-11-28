@@ -136,9 +136,9 @@ void shortcode() {
 
     time(&start_time); // Start measuring time
 
-    int totalCodeLength = 0; // 전체 코드 길이를 저장할 변수
+    int totalCodeLength = 0; //Variables to store the full code length
 
-// 반복문에서 각 코드 출력 및 사용자 입력 처리
+//Processing each code output and user input from the iteration
 for (int round = 0; round < rounds; round++) {
     // Random code selection
     int randomIndex;
@@ -153,7 +153,7 @@ for (int round = 0; round < rounds; round++) {
     int inputIndex = 0;
     int correctCount = 0;
 
-    // **출력된 코드의 전체 길이 누적**
+    //Cummation of the full length of the output code
     totalCodeLength += strlen(code[randomIndex]);
 
     printf("Your input: ");
