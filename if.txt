@@ -1,0 +1,13 @@
+#include <stdio.h>
+int main() {
+  int grade_top_k_percent=10;
+  char grade;
+  if(grade_top_k_percent<50) {
+    grade='A';
+  }
+  else {
+    grade='B';
+  }
+  printf("yout grade is %c", grade);
+  return 0;
+}
