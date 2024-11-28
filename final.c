@@ -136,61 +136,67 @@ void shortcode() {
 
     time(&start_time); // Start measuring time
 
-    for (int round = 0; round < rounds; round++) {
-        // Random code selection
-        int randomIndex;
-        do {
-            randomIndex = rand() % lineCount;
-        } while (usedIndices[randomIndex] == 1); // Randomization continues until an unused code is found.
+    int totalCodeLength = 0; // 전체 코드 길이를 저장할 변수
 
-        usedIndices[randomIndex] = 1; // To display code that has already been used
+// 반복문에서 각 코드 출력 및 사용자 입력 처리
+for (int round = 0; round < rounds; round++) {
+    // Random code selection
+    int randomIndex;
+    do {
+        randomIndex = rand() % lineCount;
+    } while (usedIndices[randomIndex] == 1); // Randomization continues until an unused code is found.
 
-        printf("Type this code: %s\n", code[randomIndex]);
-        char input[100] = { 0 };
-        int inputIndex = 0;
-        int correctCount = 0;
+    usedIndices[randomIndex] = 1; // To display code that has already been used
 
-        printf("Your input: ");
-        while (1) {
-            char ch = _getch();
+    printf("Type this code: %s\n", code[randomIndex]);
+    char input[100] = { 0 };
+    int inputIndex = 0;
+    int correctCount = 0;
 
-            if (ch == 27) { // ESC key detection
-                return;     // Return to menu
-            }
-            else if (ch == '\r') { // Enter key
-                break;
-            }
-            else if (ch == '\b' && inputIndex > 0) { // Backspace
-                inputIndex--;
-                printf("\b \b");
-                if (code[randomIndex][inputIndex] == input[inputIndex]) {
-                    correctCount--; // Decrease correct count if the character was correct
-                }
-                totalInputCount--; // Decrease total input count
-            }
-            else if (isprint(ch) && inputIndex < strlen(code[randomIndex])) { // Printable character
-                input[inputIndex] = ch;
-                if (ch == code[randomIndex][inputIndex]) {
-                    setTextColor(2); // Correct: green
-                    correctCount++;
-                }
-                else {
-                    setTextColor(4); // Incorrect: red
-                }
-                printf("%c", ch);
-                setTextColor(7); // Reset to default color
-                inputIndex++;
-                totalInputCount++; // Increase total input count
-            }
+    // **출력된 코드의 전체 길이 누적**
+    totalCodeLength += strlen(code[randomIndex]);
+
+    printf("Your input: ");
+    while (1) {
+        char ch = _getch();
+
+        if (ch == 27) { // ESC key detection
+            return;     // Return to menu
         }
-
-        totalCorrectCount += correctCount;
-        printf("\n");
+        else if (ch == '\r') { // Enter key
+            break;
+        }
+        else if (ch == '\b' && inputIndex > 0) { // Backspace
+            inputIndex--;
+            printf("\b \b");
+            if (code[randomIndex][inputIndex] == input[inputIndex]) {
+                correctCount--; // Decrease correct count if the character was correct
+            }
+            totalInputCount--; // Decrease total input count
+        }
+        else if (isprint(ch) && inputIndex < strlen(code[randomIndex])) { // Printable character
+            input[inputIndex] = ch;
+            if (ch == code[randomIndex][inputIndex]) {
+                setTextColor(2); // Correct: green
+                correctCount++;
+            }
+            else {
+                setTextColor(4); // Incorrect: red
+            }
+            printf("%c", ch);
+            setTextColor(7); // Reset to default color
+            inputIndex++;
+            totalInputCount++; // Increase total input count
+        }
     }
+
+    totalCorrectCount += correctCount;
+    printf("\n");
+}
 
     time(&end_time); // End measuring time
     double elapsed_time = difftime(end_time, start_time);
-    double accuracy = ((double)totalCorrectCount / (double)totalInputCount) * 100;
+    double accuracy = ((double)totalCorrectCount / (double)totalCodeLength) * 100;
     double wpm = ((double)totalInputCount / elapsed_time) * 60;
 
     printf("Practice Completed!\n");
