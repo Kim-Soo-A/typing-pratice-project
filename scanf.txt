@@ -1,0 +1,12 @@
+#include <stdio.h>
+void main(void){
+   int a;   
+   double b;
+   printf("Enter the int a value: ");
+   scanf("%d", &a);
+   printf("Enter the double b value: ");
+   scanf("%lf", &b);
+   printf("a  %d\n", a);
+   printf("b = %lf\n", b);
+   return 0;
+}
