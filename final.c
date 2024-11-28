@@ -219,14 +219,15 @@ void practiceCode(const char* filename) {
     printf("Press ESC to move to menu\n\n");
 
     char input[500] = { 0 };
-    int totalCorrectCount = 0, totalInputCount = 0;
+    int totalCorrectCount = 0, totalCodeLength = 0;
     time_t start_time, end_time;
     time(&start_time); // Start measuring time
 
     while (fgets(code, sizeof(code), file)) {
         code[strcspn(code, "\n")] = 0; // Remove newline character
         printf("Type this code: %s\n", code);
-        int len = strlen(code);
+        int len = strlen(code); // 현재 코드 줄의 길이
+        totalCodeLength += len; // 전체 코드 길이에 누적
         int inputIndex = 0;
         int correctCount = 0;
 
@@ -240,8 +241,7 @@ void practiceCode(const char* filename) {
             }
             else if (ch == '\r') { // Enter key
                 printf("\n");
-                totalCorrectCount += correctCount;
-                totalInputCount += inputIndex;
+                totalCorrectCount += correctCount; // 현재 줄의 맞은 문자 수 누적
                 break;
             }
             else if (ch == '\b' && inputIndex > 0) { // Backspace
@@ -250,9 +250,8 @@ void practiceCode(const char* filename) {
                 if (code[inputIndex] == input[inputIndex]) {
                     correctCount--;
                 }
-                totalInputCount--;
             }
-            else if (isprint(ch) && inputIndex < len) {
+            else if (isprint(ch) && inputIndex < len) { // 입력 가능한 문자
                 input[inputIndex] = ch;
                 if (ch == code[inputIndex]) {
                     setTextColor(2); // Correct: green
@@ -264,7 +263,6 @@ void practiceCode(const char* filename) {
                 printf("%c", ch);
                 setTextColor(7); // Reset to default color
                 inputIndex++;
-                totalInputCount++;
             }
         }
     }
@@ -272,8 +270,8 @@ void practiceCode(const char* filename) {
 
     time(&end_time); // End measuring time
     double elapsed_time = difftime(end_time, start_time);
-    double accuracy = ((double)totalCorrectCount / (double)totalInputCount) * 100;
-    double wpm = ((double)totalInputCount / elapsed_time) * 60;
+    double accuracy = ((double)totalCorrectCount / (double)totalCodeLength) * 100; // 전체 코드 길이 기준
+    double wpm = ((double)totalCorrectCount / elapsed_time) * 60; // 맞은 문자 기준 WPM 계산
 
     printf("Practice Completed!\n");
     printf("Time taken: %.2f seconds\n", elapsed_time);
