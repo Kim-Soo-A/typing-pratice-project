@@ -58,7 +58,7 @@ void shortcode();
 void wholecode();
 
 int main() {
-    srand((unsigned int)time(NULL)); // Initialize random generation
+    srand((unsigned int)time(NULL)); //Initialize random generation
     int selected = 1;
     int key;
 
@@ -69,14 +69,14 @@ int main() {
 
         if (key == 224) { // Directional key detection
             key = _getch();
-            if (key == 72 && selected > 1) { // Up arrow
+            if (key == 72 && selected > 1) { //Up arrow
                 selected--;
             }
-            else if (key == 80 && selected < 3) { // Down arrow
+            else if (key == 80 && selected < 3) { //Down arrow
                 selected++;
             }
         }
-        else if (key == 13) { // Enter key detection
+        else if (key == 13) { //Enter key detection
             switch (selected) {
             case 1:
                 shortcode();
@@ -95,13 +95,13 @@ int main() {
 }
 
 void shortcode() {
-    system("cls"); // Clear console
-    CursorView(0); // Hiding cursor
+    system("cls"); //Clear console
+    CursorView(0); //Hiding cursor
 
-    char code[1000][1000]; // Save multiple lines of code
-    int lineCount = 0;   // Number of lines read from file
+    char code[1000][1000]; //Save multiple lines of code
+    int lineCount = 0;   //Number of lines read from file
     int totalCorrectCount = 0, totalInputCount = 0;
-    int rounds;          // User input: number of rounds
+    int rounds;          //User input: number of rounds
     time_t start_time, end_time;
     int usedIndices[1000] = { 0 }; // Tracking used index to avoid print duplicate values
 
@@ -140,13 +140,13 @@ void shortcode() {
 
 //Processing each code output and user input from the iteration
 for (int round = 0; round < rounds; round++) {
-    // Random code selection
+    //Random code selection
     int randomIndex;
     do {
         randomIndex = rand() % lineCount;
-    } while (usedIndices[randomIndex] == 1); // Randomization continues until an unused code is found.
+    } while (usedIndices[randomIndex] == 1); //Randomization continues until an unused code is found.
 
-    usedIndices[randomIndex] = 1; // To display code that has already been used
+    usedIndices[randomIndex] = 1; //To display code that has already been used
 
     printf("Type this code: %s\n", code[randomIndex]);
     char input[100] = { 0 };
@@ -160,33 +160,33 @@ for (int round = 0; round < rounds; round++) {
     while (1) {
         char ch = _getch();
 
-        if (ch == 27) { // ESC key detection
-            return;     // Return to menu
+        if (ch == 27) { //ESC key detection
+            return;     //Return to menu
         }
-        else if (ch == '\r') { // Enter key
+        else if (ch == '\r') { //Enter key
             break;
         }
-        else if (ch == '\b' && inputIndex > 0) { // Backspace
+        else if (ch == '\b' && inputIndex > 0) { //Backspace
             inputIndex--;
             printf("\b \b");
             if (code[randomIndex][inputIndex] == input[inputIndex]) {
-                correctCount--; // Decrease correct count if the character was correct
+                correctCount--; //Decrease correct count if the character was correct
             }
-            totalInputCount--; // Decrease total input count
+            totalInputCount--; //Decrease total input count
         }
-        else if (isprint(ch) && inputIndex < strlen(code[randomIndex])) { // Printable character
+        else if (isprint(ch) && inputIndex < strlen(code[randomIndex])) { //Printable character
             input[inputIndex] = ch;
             if (ch == code[randomIndex][inputIndex]) {
                 setTextColor(2); // Correct: green
                 correctCount++;
             }
             else {
-                setTextColor(4); // Incorrect: red
+                setTextColor(4); //Incorrect: red
             }
             printf("%c", ch);
-            setTextColor(7); // Reset to default color
+            setTextColor(7); //Reset to default color(gray) for next line
             inputIndex++;
-            totalInputCount++; // Increase total input count
+            totalInputCount++; //Increase total input count
         }
     }
 
@@ -226,8 +226,8 @@ void practiceCode(const char* filename) {
     while (fgets(code, sizeof(code), file)) {
         code[strcspn(code, "\n")] = 0; // Remove newline character
         printf("Type this code: %s\n", code);
-        int len = strlen(code); // 현재 코드 줄의 길이
-        totalCodeLength += len; // 전체 코드 길이에 누적
+        int len = strlen(code); //length of current code
+        totalCodeLength += len; //Accumulated length of the entire code
         int inputIndex = 0;
         int correctCount = 0;
 
@@ -241,7 +241,7 @@ void practiceCode(const char* filename) {
             }
             else if (ch == '\r') { // Enter key
                 printf("\n");
-                totalCorrectCount += correctCount; // 현재 줄의 맞은 문자 수 누적
+                totalCorrectCount += correctCount; //Accumulate the number of characters matched in the current line
                 break;
             }
             else if (ch == '\b' && inputIndex > 0) { // Backspace
@@ -251,17 +251,17 @@ void practiceCode(const char* filename) {
                     correctCount--;
                 }
             }
-            else if (isprint(ch) && inputIndex < len) { // 입력 가능한 문자
+            else if (isprint(ch) && inputIndex < len) { //Typeable characters
                 input[inputIndex] = ch;
                 if (ch == code[inputIndex]) {
-                    setTextColor(2); // Correct: green
+                    setTextColor(2); //Correct: green
                     correctCount++;
                 }
                 else {
-                    setTextColor(4); // Incorrect: red
+                    setTextColor(4); //Incorrect: red
                 }
                 printf("%c", ch);
-                setTextColor(7); // Reset to default color
+                setTextColor(7); //Reset to default color(gray)
                 inputIndex++;
             }
         }
@@ -270,8 +270,8 @@ void practiceCode(const char* filename) {
 
     time(&end_time); // End measuring time
     double elapsed_time = difftime(end_time, start_time);
-    double accuracy = ((double)totalCorrectCount / (double)totalCodeLength) * 100; // 전체 코드 길이 기준
-    double wpm = ((double)totalCorrectCount / elapsed_time) * 60; // 맞은 문자 기준 WPM 계산
+    double accuracy = ((double)totalCorrectCount / (double)totalCodeLength) * 100;
+    double wpm = ((double)totalCorrectCount / elapsed_time) * 60;
 
     printf("Practice Completed!\n");
     printf("Time taken: %.2f seconds\n", elapsed_time);
