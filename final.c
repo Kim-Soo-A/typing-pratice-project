@@ -215,8 +215,11 @@ void practiceCode(const char* filename) {
         return;
     }
 
-    printf("This is code practice from %s. Press Enter to move to the next line\n", filename);
-    printf("Press ESC to move to menu\n\n");
+    printf("This is code practice from %s. Press Enter to move to the next line.\n", filename);
+    printf("Press ESC to move to menu.\n");
+    setTextColor(3); //dark skyblue
+    printf("Please press the space bar once instead of the Tab key.\n\n");
+    setTextColor(7);
 
     char input[500] = { 0 };
     int totalCorrectCount = 0, totalCodeLength = 0;
