@@ -7,7 +7,7 @@
 #include <time.h> //library for measuring time
 
 // Function for hiding cursor
-void CursorView(char show) { // Prevent cursor from blinking
+/*void CursorView(char show) { // Prevent cursor from blinking
     HANDLE hConsole;
     CONSOLE_CURSOR_INFO ConsoleCursor;
 
@@ -16,7 +16,7 @@ void CursorView(char show) { // Prevent cursor from blinking
     ConsoleCursor.dwSize = 1;
 
     SetConsoleCursorInfo(hConsole, &ConsoleCursor);
-}
+}*/
 
 // Function for changing color of text
 void setTextColor(int color) {
@@ -27,7 +27,7 @@ void setTextColor(int color) {
 // Function for selecting menu
 void menu(int selected) {
     system("cls"); // Cleaning console
-    CursorView(0);
+    //CursorView(0);
 
     printf("\n\n\n\n");
     printf("            ============================\n");
@@ -96,7 +96,7 @@ int main() {
 
 void shortcode() {
     system("cls"); //Clear console
-    CursorView(0); //Hiding cursor
+    //CursorView(0); //Hiding cursor
 
     char code[1000][1000]; //Save multiple lines of code
     int lineCount = 0;   //Number of lines read from file
